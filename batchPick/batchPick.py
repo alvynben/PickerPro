@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import pathlib
 import json
 
@@ -6,31 +6,31 @@ CURRENT_DIRECTORY = pathlib.Path(__file__).parent.absolute()
 FILE_NAME = 'df_lines.csv'
 SPECIFIED_DATE = '12/13/2018'
 
-df = pandas.read_csv(f"{CURRENT_DIRECTORY}/{FILE_NAME}")
+df = pd.read_csv(f"{CURRENT_DIRECTORY}/{FILE_NAME}")
 
-# Split all orders into groups by their date
+# Split all items into groups by their date
 listOfDates = df["DATE"].unique()
-ordersToDate = {}
+datesToItems = {}
 for date in listOfDates:
-    ordersToDate[date] = df[df["DATE"] == date]
+    datesToItems[date] = df[df["DATE"] == date]
 
-# Split all orders in SPECIFIED_DATE into a list of invoices
-day = ordersToDate[SPECIFIED_DATE]
+# Split all items in SPECIFIED_DATE into a list of invoices
+day = datesToItems[SPECIFIED_DATE]
 listOfInvoices = []
 for orderNumber in day["OrderNumber"].unique():
-    orders = day[day["OrderNumber"] == orderNumber]
+    items = day[day["OrderNumber"] == orderNumber]
     invoice = {}
     invoice["OrderNumber"] = orderNumber
     invoice["items"] = []
-    for index,order in orders.iterrows():
-        item = {}
-        item["SKU"] = order["SKU"]
-        item["PCS"] = order["PCS"]
-        item["Alley_Number"] = order["Alley_Number"]
-        item["Cellule"] = order["Cellule"]
-        item["Coord"] = order["Coord"]
-        item["AlleyCell"] = order["AlleyCell"]
-        invoice["items"].append(item)
+    for index,item in items.iterrows():
+        temp_item = {}
+        temp_item["SKU"] = item["SKU"]
+        temp_item["PCS"] = item["PCS"]
+        temp_item["Alley_Number"] = item["Alley_Number"]
+        temp_item["Cellule"] = item["Cellule"]
+        temp_item["Coord"] = item["Coord"]
+        temp_item["AlleyCell"] = item["AlleyCell"]
+        invoice["items"].append(temp_item)
     listOfInvoices.append(invoice)
 
 # To display format of how invoices are stored using pretty printed JSON
