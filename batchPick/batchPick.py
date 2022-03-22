@@ -34,7 +34,7 @@ for orderNumber in day["OrderNumber"].unique():
     listOfInvoices.append(invoice)
 
 # To display format of how invoices are stored using pretty printed JSON
-# print(json.dumps(json.loads(str(listOfInvoices).replace("\'", "\"")), indent=2))
+print(json.dumps(json.loads(str(listOfInvoices).replace("\'", "\"")), indent=2))
     
 
 
