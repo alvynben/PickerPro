@@ -37,7 +37,7 @@ def Insert_row(row_number, df, row_value):
     return df
 
 #adding artificial data
-rangeValues = 5
+rangeValues = 3
 counter = 1
 for row in range(len(df.index)):
     case = random.randint(1, 4)
