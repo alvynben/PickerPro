@@ -2,10 +2,8 @@ import pandas as pd
 import pathlib
 import random
 
-
 CURRENT_DIRECTORY = pathlib.Path(__file__).parent.absolute()
 FILE_NAME = 'df_lines.csv'
-
 df = pd.read_csv(f"{CURRENT_DIRECTORY}/{FILE_NAME}")
 
 # extract unique SKU and store in dictionary
@@ -19,8 +17,8 @@ for SKU in range(len(listOfSKU)):
     itemDetails['cellule'] = df.loc[df['SKU'] == listOfSKU[SKU], 'Cellule'].values[0]
     itemDetails['coordinates'] = df.loc[df['SKU'] == listOfSKU[SKU], 'Coord'].values[0]
     itemDetails['alley_cell'] = df.loc[df['SKU'] == listOfSKU[SKU], 'AlleyCell'].values[0]
+    itemDetails['size'] = df.loc[df['SKU'] == listOfSKU[SKU], 'Size'].values[0]
     SKUtoDate[listOfSKU[SKU]] = itemDetails
-
 
 def Insert_row(row_number, df, row_value):
     start_upper = 0
@@ -35,7 +33,6 @@ def Insert_row(row_number, df, row_value):
     df.loc[row_number] = row_value
     df = df.sort_index()
     return df
-
 #adding artificial data
 rangeValues = 3
 counter = 1
@@ -50,9 +47,9 @@ for row in range(len(df.index)):
             orderNo,Date = df['OrderNumber'].iloc[temp],df['DATE'].iloc[temp]
             SKUInput = listOfSKU[random.randint(1,len(listOfSKU)-1)]
             Pcs = random.randint(1,2)
-            rowValue = [counter,Date,orderNo,SKUInput,Pcs,SKUtoDate[SKUInput]['referenceID'],SKUtoDate[SKUInput]['location'],
+            rowValue = [counter,counter,Date,orderNo,SKUInput,Pcs,SKUtoDate[SKUInput]['referenceID'],SKUtoDate[SKUInput]['location'],
                             SKUtoDate[SKUInput]['alley_no'],SKUtoDate[SKUInput]['cellule'],
-                            SKUtoDate[SKUInput]['coordinates'],SKUtoDate[SKUInput]['alley_cell']]
+                            SKUtoDate[SKUInput]['coordinates'],SKUtoDate[SKUInput]['alley_cell'],SKUtoDate[SKUInput]['size']]
             if temp > df.index.max() + 1:
                 pass
             else:
@@ -61,7 +58,7 @@ for row in range(len(df.index)):
     counter += 1
 
 df.to_csv('newdf_lines.csv',columns=['S/N', 'DATE', 'OrderNumber', 'SKU','PCS','ReferenceID','Location','Alley_Number','Cellule',
-                                     'Coord','AlleyCell'])
+                                     'Coord','AlleyCell','Size'])
 print("Generated")
 
 
