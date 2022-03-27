@@ -3,7 +3,7 @@ import pathlib
 import json
 
 CURRENT_DIRECTORY = pathlib.Path(__file__).parent.absolute()
-FILE_NAME = 'df_lines.csv'
+FILE_NAME = 'newdf_lines.csv'
 SPECIFIED_DATE = '12/13/2018'
 
 df = pd.read_csv(f"{CURRENT_DIRECTORY}/{FILE_NAME}")
@@ -30,6 +30,7 @@ for orderNumber in day["OrderNumber"].unique():
         temp_item["Cellule"] = item["Cellule"]
         temp_item["Coord"] = item["Coord"]
         temp_item["AlleyCell"] = item["AlleyCell"]
+        temp_item["Size"] = item["Size"]
         invoice["items"].append(temp_item)
     listOfInvoices.append(invoice)
 
