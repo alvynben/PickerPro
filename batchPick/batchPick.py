@@ -4,10 +4,11 @@ import json
 import itertools
 from ast import literal_eval
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 
 CURRENT_DIRECTORY = pathlib.Path(__file__).parent.absolute()
-FILE_NAME = 'newdf_lines.csv'
+FILE_NAME = 'df_lines.csv'
 SPECIFIED_DATE = '12/13/2018'
 
 df = pd.read_csv(f"{CURRENT_DIRECTORY}/{FILE_NAME}")
@@ -62,23 +63,63 @@ for k,_ in itertools.groupby(list_locs):
 # plt.style.use('_mpl-gallery')
 
 fig, ax = plt.subplots()
+line1, line2, line3 = [0,0,0]
 
-for a,b in [(15.25,16.5), (19.5,20.75), (22.75,24), (26,28), (29.25, 31.25), (32.5,34.5),(35.75,37.75),(39.0,41.0),(42.25,44.25),(45.5,47.5),(48.75,50.75),(52.0,54.0) ]:
+for a,b in [(13.25,15.25), (17.5, 19.5), (20.75, 22.75), (24,26), (28,30), (32.5,34.5),(35.75,37.75),(39.0,41.0),(42.25,44.25),(45.5,47.5),(48.75,50.75),(52.0,54.0) ]:
     x = np.array([a,a,b,b,a])
     y = np.array([6.0,23.0,23.0,6.0,6.0])
 
-    ax.step(x, y, linewidth=2.5)
+    line1 = ax.step(x, y, linewidth=2.5, color='black')
 
-x = np.array(all_x)
-y = np.array(all_y)
+# x = np.array(all_x)
+# y = np.array(all_y)
+# sizes = np.random.uniform(15, 80, len(x))
+# colors = np.random.uniform(15, 80, len(x))
+# ax.scatter(x,y,s=sizes, c=colors,vmin=0,vmax=100)
+
+f = open(f"{CURRENT_DIRECTORY}/listlocs.txt","r")
+lines = f.read().splitlines()
+batch_routes = []
+new_x = []
+new_y = []
+for line in lines:
+    lineSplit = line.split(",")
+    new_x.append(float(lineSplit[0]))
+    new_y.append(float(lineSplit[1]))
+f.close()
+x = np.array(new_x)
+y = np.array(new_y)
 sizes = np.random.uniform(15, 80, len(x))
 colors = np.random.uniform(15, 80, len(x))
-ax.scatter(x,y,s=sizes, c=colors,vmin=0,vmax=100)
+line2 = ax.scatter(x,y,s=sizes, c=colors,vmin=0,vmax=100)
 
+f = open(f"{CURRENT_DIRECTORY}/demofile3.txt","r")
+lines = f.read().splitlines()
+batch_routes = []
+for line in lines:
+    lineSplit = line.split(",")
+    batch_routes.append([float(lineSplit[0]), float(lineSplit[1])])
+f.close()
 
+for i in range(1,len(batch_routes)):
+    start = batch_routes[i - 1]
+    end = batch_routes[i]
+
+    # x = np.array([start[0], end[0]])
+    # y = np.array([start[1], end[1]])
+    # line3 = ax.step(x, y, linewidth = 1, color="red")
+    x,y = start
+    dx,dy = end[0] - x, end[1] - y
+    line3 = ax.arrow(x, y, dx, dy, color="red", linewidth=3.5, head_width=0.3, length_includes_head=True)
 
 ax.set(xlim=(10, 60), xticks=np.arange(10, 60),
        ylim=(5, 25), yticks=np.arange(5, 25))
+
+legend_elements = [Line2D([0], [0], color='black', lw=4, label='Shelf'),
+                   Line2D([0], [0], marker='o', color='w', label='Item to Pick',
+                          markerfacecolor='g', markersize=15),
+                   Line2D([0], [0], color='red', lw=4, label='Route Taken')]
+ax.legend(handles=legend_elements)
 
 plt.show()
     
