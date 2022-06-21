@@ -40,7 +40,6 @@ class Inventory:
         item: Union[Item, None] = self.item_info_map.get(id_no)
         if item is not None:
             return item.bin_location
-        return None
 
     def get_item_bin_location_map(self) -> Dict[str, str]:
         item_bin_location_map = {}
