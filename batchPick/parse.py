@@ -62,7 +62,7 @@ class Map:
         new_row = []
         for index, i in enumerate(csv_line):
             if type(i) is str:  # type str means it's not an empty cell, so there is a bin
-                self.bin_location_coordinates_map[i] = (row_number, index)
+                self.bin_location_coordinates_map[i] = (index, row_number)
                 new_row.append(1)
             else:
                 new_row.append(0)
