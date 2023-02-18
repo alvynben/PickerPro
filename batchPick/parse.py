@@ -92,6 +92,3 @@ def parseMapCSV() -> Map:
 
 inventory: Inventory = parseItemInventoryCSV()
 map: Map = parseMapCSV()
-
-print(map.map)
-print(map.bin_location_coordinates_map)
