@@ -1,4 +1,5 @@
 import sys
+from typing import List
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
@@ -20,7 +21,7 @@ test_grid = [
             [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
-def isValidCoord(coord: list, grid: list[list]) -> bool:
+def isValidCoord(coord: List, grid: List[List]) -> bool:
     gridLength = len(grid[0])
     gridHeight = len(grid)
 
@@ -35,7 +36,7 @@ def isValidCoord(coord: list, grid: list[list]) -> bool:
 # Shortest distance between start_coord and         #
 # end_coord                                         #
 #####################################################
-def shortestDist(start_coord: list, end_coord: list, grid: list[list]) -> int:
+def shortestDist(start_coord: List, end_coord: List, grid: List[List]) -> int:
     # Check if coordinates are valid
     if (not isValidCoord(start_coord, grid)) or (not isValidCoord(end_coord, grid)):
         return -1
@@ -59,7 +60,7 @@ def shortestDist(start_coord: list, end_coord: list, grid: list[list]) -> int:
 # Returns:                                          #
 # Order of points which results in shortest path    #
 #####################################################
-def findPath(points:list[list], grid: list[list]) -> list[list]:
+def findPath(points: List[List], grid: List[List]) -> List[List]:
     # Add starting point
     order = [points[0]]
     points.pop(0)
