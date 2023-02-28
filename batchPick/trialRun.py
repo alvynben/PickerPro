@@ -7,8 +7,8 @@ import itertools
 from ast import literal_eval
 import statistics
 import matplotlib.pyplot as plt
-from parse import inventory
-from parse import map as warehouseMap
+from batchPick.utils.parse import inventory
+from batchPick.utils.parse import map as warehouseMap
 
 # Constants
 CSV_FILE_NAME = "trial_data.csv"
@@ -21,22 +21,6 @@ def get_unique_count(df: pd.DataFrame, col_name: pd.Index):
 df = pd.read_csv(CSV_FILE_NAME)
 
 # Transform Data
-
-# Invoice Format
-""" Posting No.                                   BCMINV-220500399
-Document No.                                      BCMSO-026974
-Posting Date                                         5/24/2022
-Customer No.                                          C-005192
-Customer Name               ISS CATERING SERVICES PTE LTD - MJ
-Ship-to Name                ISS CATERING SERVICES PTE LTD - MJ
-Division Code                                      CATERER/MFR
-No.                                                  ZZRF600GM
-Description                           ELEPHANT BALL RICE FLOUR
-Packing Size                                        16 X 600GM
-Qty. per Unit of Measure                                     1
-UOM                                                        PKT
-Quantity                                                     3
-Quantity (Base)                                              3 """
 
 invoice_to_weight = pd.DataFrame(df, columns=["Document No.", "Quantity"]).groupby("Document No.")
 
