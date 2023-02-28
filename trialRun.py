@@ -11,7 +11,7 @@ from batchPick.utils.parse import inventory
 from batchPick.utils.parse import map as warehouseMap
 
 # Constants
-CSV_FILE_NAME = "trial_data.csv"
+CSV_FILE_NAME = "batchPick/trainingData/trial_data.csv"
 
 # Utils
 def get_unique_count(df: pd.DataFrame, col_name: pd.Index):
@@ -21,7 +21,6 @@ def get_unique_count(df: pd.DataFrame, col_name: pd.Index):
 df = pd.read_csv(CSV_FILE_NAME)
 
 # Transform Data
-
 invoice_to_weight = pd.DataFrame(df, columns=["Document No.", "Quantity"]).groupby("Document No.")
 
 # Apply Knapsack Algorithm on Invoices
