@@ -23,7 +23,7 @@ df = pd.read_csv(CSV_FILE_NAME)
 
 # Transform Data
 invoice_to_weight = pd.DataFrame(df, columns=["Document No.", "Quantity"]).groupby("Document No.")
-print(invoice_to_weight)
+
 # Apply Knapsack Algorithm on Invoices
 total_no_of_orders: int = len(df.index)
 orders_remaining: int = total_no_of_orders
