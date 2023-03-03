@@ -73,6 +73,7 @@ class Map:
 
 
 def parseItemInventoryCSV() -> Inventory:
+    print(ITEM_INVENTORY_FILE_NAME)
     df = pd.read_csv(f"{CURRENT_DIRECTORY}/{ITEM_INVENTORY_FILE_NAME}")
     inventory: Inventory = Inventory()
     for index, item in df.iterrows():

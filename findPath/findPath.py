@@ -4,24 +4,7 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
-test_grid = [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
-
-def isValidCoord(coord: List, grid: List[List]) -> bool:
+def isValidCoord(coord: tuple, grid: List[List]) -> bool:
     gridLength = len(grid[0])
     gridHeight = len(grid)
 
@@ -36,7 +19,7 @@ def isValidCoord(coord: List, grid: List[List]) -> bool:
 # Shortest distance between start_coord and         #
 # end_coord                                         #
 #####################################################
-def shortestDist(start_coord: List, end_coord: List, grid: List[List]) -> int:
+def shortestDist(start_coord: tuple, end_coord: tuple, grid: List[List]) -> int:
     # Check if coordinates are valid
     if (not isValidCoord(start_coord, grid)) or (not isValidCoord(end_coord, grid)):
         return -1
@@ -60,27 +43,27 @@ def shortestDist(start_coord: List, end_coord: List, grid: List[List]) -> int:
 # Returns:                                          #
 # Order of points which results in shortest path    #
 #####################################################
-def findPath(points: List[List], grid: List[List]) -> List[List]:
+def findPath(points: List[tuple], grid: List[List]) -> List[List]:
     # Add starting point
-    order = [points[0]]
+    pointsCopy = points.copy()
+    latestOrder = points[0]
+    order = [0]
     points.pop(0)
 
     minVal = sys.maxsize
     minInd = -1
+    
     while points:
         # Find next nearest point
         for i in range(len(points)):
             # Compare latest point with points[i]
-            dist = shortestDist(order[-1], points[i], grid)
+            dist = shortestDist(latestOrder, points[i], grid)
             if dist <= minVal:
                 minVal = dist
                 minInd = i
         # Add shortest point to order and remove from points
-        order.append(points.pop(minInd))
+        latestOrder = points.pop(minInd)
+        order.append(pointsCopy.index(latestOrder))
         minVal = sys.maxsize
-    
+
     return order
-
-
-
-print(findPath([[1,0], [2,14], [18,9], [11,6], [6,11]],test_grid))
